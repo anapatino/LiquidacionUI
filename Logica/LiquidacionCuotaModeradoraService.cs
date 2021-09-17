@@ -74,19 +74,19 @@ namespace Logica
 
         }
 
-        public string Modificar(long identificacion,LiquidacionCuotaModeradora personaNew)
+        public string Modificar(decimal valorServicio ,LiquidacionCuotaModeradora personaNew)
         {
             try
             {
-                if (liquidacionRepository.Buscar(identificacion)==null)
+                if (liquidacionRepository.BuscarValorServicio(valorServicio) ==null)
                 {
-                    return $"No es posible realizar la Modificación, la persona con Identificacion {identificacion} no existe";
+                    return $"No es posible realizar la Modificación, la persona con Identificacion {valorServicio} no existe";
                 }
-                if (liquidacionRepository.Buscar(personaNew.Identificacion)!=null)
+                if (liquidacionRepository.BuscarValorServicio(personaNew.ValorServicio) !=null)
                 {
                     return $"No es posible realizar la Modificación, La Nueva Identificación {personaNew.Identificacion} ya se encuentra asignada a otra persona";
                 }
-                liquidacionRepository.Modificar(identificacion, personaNew);
+                liquidacionRepository.Modificar(valorServicio, personaNew);
                 return "Se realizó la Modificación Satisfactoriamente";
             }
             catch (Exception e)

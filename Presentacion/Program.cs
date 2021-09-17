@@ -82,8 +82,8 @@ namespace Presentacion
             Console.WriteLine("");
             var paciente = RegistarDatos();
             string mensaje = liquidacionService.Guarda(paciente);
-            Console.WriteLine(mensaje);
-            Console.Write("Pulse una tecla para salir "); Console.ReadKey();
+            Console.WriteLine($"     { mensaje}");
+            Console.Write("          Pulse una tecla para salir "); Console.ReadKey();
         }
         public static void ConsultarRegistros()
         {
@@ -93,7 +93,7 @@ namespace Presentacion
             var respuesta = liquidacionService.Consultar();
             if (respuesta.Error)
             {
-                Console.WriteLine(respuesta.Mensaje);
+                Console.WriteLine($"     { respuesta.Mensaje}");
             }
             else
             {
@@ -121,39 +121,44 @@ namespace Presentacion
             Console.WriteLine();
             Console.Write(" Nro Liquidacion :");decimal numeroLiquidacion = decimal.Parse(Console.ReadLine());
             string mensajeEliminacion = liquidacionService.Eliminar(numeroLiquidacion);
-            Console.WriteLine(mensajeEliminacion);
-            Console.Write("Pulse una tecla para salir "); Console.ReadKey();
+            Console.WriteLine($"    { mensajeEliminacion} ");
+            Console.Write("   Pulse una tecla para salir "); Console.ReadKey();
         }
         public static void Modificar()
         {
             Console.Clear();
             Console.WriteLine("----------Datos deL Paciente----------");
             Console.WriteLine();
-            var (identificacion, IsFind) = BuscarYValidarPaciente();
-            if (IsFind)
-            {
-                Console.WriteLine("---------Solicitando los Nuevos Datos--------- ");
-                LiquidacionCuotaModeradora paciente = RegistarDatos();
-
-            }
-            Console.Write("Pulse una tecla para salir "); Console.ReadKey();
+            BuscarYCambiarValorPaciente();
+            Console.Write("   Pulse una tecla para salir "); Console.ReadKey();
 
         }
 
-        public static(long Identificacion,bool IsFind) BuscarYValidarPaciente()
+        public static void BuscarYCambiarValorPaciente()
         {
-            Console.Write("Identificacion: ");
-            long identificacion = long.Parse(Console.ReadLine());
-            var mensajeBusqueda = liquidacionService.Buscar(identificacion);
+            Console.Write("Nro.Liquidacion: ");
+            decimal numeroLiquidacion = decimal.Parse(Console.ReadLine());
+            var mensajeBusqueda = liquidacionService.Buscar(numeroLiquidacion);
             if (mensajeBusqueda.IsError)
             {
                 Console.WriteLine(mensajeBusqueda.Mensaje);
             }
             else
             {
-                Console.WriteLine(mensajeBusqueda.Paciente.ToString());
+
+                Console.WriteLine($"Nro.Liquidacion     : {mensajeBusqueda.Paciente.NumeroLiquidacion} ");
+                Console.WriteLine($"Fecha Liquidacion   : {mensajeBusqueda.Paciente.FechaLiquidacion}");
+                Console.WriteLine($"Identificacion      : {mensajeBusqueda.Paciente.Identificacion}");
+                Console.WriteLine($"Tipo Afiliacion     : {mensajeBusqueda.Paciente.Afiliacion}");
+                Console.WriteLine($"Salario             : {mensajeBusqueda.Paciente.Salario}");
+                Console.WriteLine($"Valor Servicio      : {mensajeBusqueda.Paciente.ValorServicio}");
+                Console.WriteLine($" Valor Liquidado    : {mensajeBusqueda.Paciente.ValorLiquidado}");
+                Console.WriteLine("---------Solicitando los Nuevos Datos--------- ");
+                Console.WriteLine($" NUEVO VALOR SERVICIO   :"); decimal nuevoValorServicio = decimal.Parse(Console.ReadLine());
+                mensajeBusqueda.Paciente.ValorServicio = nuevoValorServicio;
+                mensajeBusqueda.Paciente.CalcularCuotaModeradora();
             }
-            return (identificacion, !mensajeBusqueda.IsError);
+          
         }
     }
 }

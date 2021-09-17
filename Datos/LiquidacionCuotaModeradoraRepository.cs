@@ -97,5 +97,18 @@ namespace Datos
             return null;
         }
 
+        public LiquidacionCuotaModeradora BuscarValorServicio(decimal valorServicio)
+        {
+            List<LiquidacionCuotaModeradora> pacientes = Consultar();
+            foreach (var item in pacientes)
+            {
+                if (item.ValorServicio.Equals(valorServicio))
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
     }
 }
