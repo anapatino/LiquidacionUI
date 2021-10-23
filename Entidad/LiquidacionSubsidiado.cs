@@ -12,7 +12,7 @@ namespace Entidad
         {
 
         }
-        public LiquidacionSubsidiado(decimal numeroLiquidacion, long identificacion, string afiliacion, decimal salario, decimal valorServicio, string fechaLiquidacion)
+        public LiquidacionSubsidiado(decimal numeroLiquidacion, long identificacion, string afiliacion, decimal salario, decimal valorServicio,DateTime fechaLiquidacion)
         : base(numeroLiquidacion, identificacion, afiliacion, salario, valorServicio, fechaLiquidacion)
         {
 

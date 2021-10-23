@@ -50,17 +50,12 @@ namespace Presentacion
 
         private static LiquidacionCuotaModeradora RegistarDatos()
         {
-            decimal numeroLiquidacion, salario, valorServicio;
-            long identificacion;
-            string afiliacion, fechaLiquidacion;
-        
-            Console.Write("Nro.Liquidacion :");numeroLiquidacion = decimal.Parse(Console.ReadLine());
-            Console.Write("Fecha Liquidacion:"); fechaLiquidacion = Console.ReadLine();
-            Console.Write("Identificacion  :");identificacion = long.Parse(Console.ReadLine());
-            Console.Write("Tipo Afiliacion :");afiliacion = Console.ReadLine();
-            Console.Write("Salario         :");salario = decimal.Parse(Console.ReadLine());
-            Console.Write("Valor Servicio  :"); valorServicio= decimal.Parse(Console.ReadLine());
-
+            Console.Write("Nro.Liquidacion :"); decimal numeroLiquidacion = decimal.Parse(Console.ReadLine());
+            Console.Write("Fecha Liquidacion:"); DateTime fechaLiquidacion= DateTime.Parse(Console.ReadLine());
+            Console.Write("Identificacion  :"); long identificacion = long.Parse(Console.ReadLine());
+            Console.Write("Tipo Afiliacion :"); string afiliacion = Console.ReadLine();
+            Console.Write("Salario         :"); decimal salario = decimal.Parse(Console.ReadLine());
+            Console.Write("Valor Servicio  :"); decimal valorServicio = decimal.Parse(Console.ReadLine());
             if (afiliacion.ToUpper().Equals("SUBSIDIADO"))
             {
                 LiquidacionCuotaModeradora subsidiado = new LiquidacionSubsidiado(numeroLiquidacion, identificacion, afiliacion, salario, valorServicio, fechaLiquidacion);
@@ -99,7 +94,6 @@ namespace Presentacion
             {
                 foreach (var item in respuesta.Pacientes)
                 {
-                  
                     Console.WriteLine($"Nro.Liquidacion     : {item.NumeroLiquidacion} "); 
                     Console.WriteLine($"Fecha Liquidacion   : {item.FechaLiquidacion}"); 
                     Console.WriteLine($"Identificacion      : {item.Identificacion}"); 
@@ -111,7 +105,6 @@ namespace Presentacion
                 }
                 Console.Write("Pulse una tecla para salir "); Console.ReadKey();
             }
-
         }
 
         public static void Eliminar()
@@ -120,7 +113,7 @@ namespace Presentacion
             Console.WriteLine("------Eliminar por Identificacion --------");
             Console.WriteLine();
             Console.Write(" Nro Liquidacion :");decimal numeroLiquidacion = decimal.Parse(Console.ReadLine());
-            string mensajeEliminacion = liquidacionService.Eliminar(numeroLiquidacion);
+            var (mensajeEliminacion, personaEliminada) = liquidacionService.Eliminar(numeroLiquidacion);
             Console.WriteLine($"    { mensajeEliminacion} ");
             Console.Write("   Pulse una tecla para salir "); Console.ReadKey();
         }
@@ -131,7 +124,6 @@ namespace Presentacion
             Console.WriteLine();
             BuscarYCambiarValorPaciente();
             Console.Write("   Pulse una tecla para salir "); Console.ReadKey();
-
         }
 
         public static void BuscarYCambiarValorPaciente()
@@ -145,7 +137,6 @@ namespace Presentacion
             }
             else
             {
-
                 Console.WriteLine($"Nro.Liquidacion     : {mensajeBusqueda.Paciente.NumeroLiquidacion} ");
                 Console.WriteLine($"Fecha Liquidacion   : {mensajeBusqueda.Paciente.FechaLiquidacion}");
                 Console.WriteLine($"Identificacion      : {mensajeBusqueda.Paciente.Identificacion}");
@@ -158,7 +149,6 @@ namespace Presentacion
                 mensajeBusqueda.Paciente.ValorServicio = nuevoValorServicio;
                 mensajeBusqueda.Paciente.CalcularCuotaModeradora();
             }
-          
         }
     }
 }
